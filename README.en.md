@@ -2,15 +2,15 @@
 
 English · [简体中文](README.md)
 
-Brings the [official Feishu CLI](https://github.com/larksuite/cli) (`lark-cli`) into DeepSeek Harness (DSH) Desktop and Web: a **Feishu** panel in the sidebar for QR-code sign-in, and agent tools that can run any `lark-cli` command.
+Brings the [official Feishu CLI](https://github.com/larksuite/cli) (`lark-cli`) into DeepSeek Harness (DSH) Desktop and Web: a **Feishu CLI** configuration panel on the plugin's own page in Settings → Plugins for QR-code sign-in, and agent tools that can run any `lark-cli` command. The plugin takes no sidebar entry.
 
 > This is a community plugin, not a product published by Feishu/Lark or DeepSeek. It drives the official Feishu CLI; every login, authorization and command runs under your own Feishu account and permissions.
 
-> This repository is a fork of [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli), maintained by `oooplz` and published to npm as `dsh-feishu-cli`. The code matches upstream `v1.0.0`; later differences are recorded in [CHANGELOG.md](CHANGELOG.md).
+> This repository is a fork of [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli), maintained by `oooplz` and published to npm as `dsh-feishu-cli`. The code is based on upstream `v1.0.0`; since `v1.1.0` the configuration entry moved from the sidebar to the plugin page — see [CHANGELOG.md](CHANGELOG.md).
 
 ## What it is
 
-- **A DSH plugin**: adds a Feishu entry to the DSH sidebar with a main panel, and registers the `feishu_cli` and `feishu_auth` agent tools.
+- **A DSH plugin**: its configuration lives on the plugin's own page (`plugins.bundle.config`) instead of the sidebar, and it registers the `feishu_cli` and `feishu_auth` agent tools.
 - **A wrapper around the official CLI**: the official `lark-cli` does the real work. The plugin locates and runs it, reads its state, and surfaces login QR codes and command output in the panel and the conversation.
 - **The same capability boundary as the CLI**: anything the CLI can do, the plugin can do; nothing beyond that is promised.
 
@@ -50,13 +50,13 @@ You can also install the `main` branch source of this fork from GitHub:
 dsh plugin --profile desktop add github:oooplz/dsh-feishu-cli
 ```
 
-To skip the package manager, download `dsh-feishu-cli.tgz` from the [v1.0.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.0.0) and install it locally:
+To skip the package manager, download `dsh-feishu-cli.tgz` from the [v1.1.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.1.0) and install it locally:
 
 ```bash
 dsh plugin --profile web add ./dsh-feishu-cli.tgz
 ```
 
-Restart DSH after installing; a Feishu icon appears in the sidebar. To uninstall:
+Restart DSH after installing, then open **Plugins** in the left sidebar → **Feishu CLI** (package `dsh-feishu-cli`): the configuration sits between the description and the component rows. To uninstall:
 
 ```bash
 dsh plugin --profile web remove dsh-feishu-cli
@@ -64,7 +64,7 @@ dsh plugin --profile web remove dsh-feishu-cli
 
 ## First use: two QR-code steps
 
-1. **Initialize the app** (first time only): open Feishu in the sidebar → under "Step 1 · Initialize Feishu app", click "Initialize Feishu app (about 1 minute)" → a Feishu authorization page opens in your browser, or scan the code → create and authorize the app. The app is then stored in the local `lark-cli` configuration.
+1. **Initialize the app** (first time only): Plugins → Feishu CLI → under "Step 1 · Initialize Feishu app", click "Initialize Feishu app (about 1 minute)" → a Feishu authorization page opens in your browser, or scan the code → create and authorize the app. The app is then stored in the local `lark-cli` configuration.
 2. **Sign in**: under "Sign in to Feishu", click "Sign in to Feishu" → scan the QR code with the Feishu app, or open the link → approve on your phone. The panel shows "Signed in · your name" when done.
 
 After that, only step 2 is needed; the panel prompts you to sign in again when the session expires.
@@ -72,6 +72,8 @@ After that, only step 2 is needed; the panel prompts you to sign in again when t
 > Both steps are official CLI flows: initialization creates **your own** Feishu custom app, and sign-in authorizes **your own** Feishu user identity.
 
 ## Usage
+
+The configuration always lives on the plugin page: **Plugins** → **Feishu CLI**. The plugin adds no sidebar entry.
 
 ### Panel
 
@@ -151,7 +153,7 @@ See [SECURITY.md](SECURITY.md) and [PRIVACY.md](PRIVACY.md) for details.
 | Authorization page will not open | Check network / proxy; scanning with the Feishu mobile app usually bypasses browser network issues |
 | `unsafe file path` | File arguments must be relative to the working directory; `cd` there or pass the tool's `cwd` |
 | Exit code `10` | High-risk write; confirm with the user, then retry with `--yes` |
-| No Feishu icon in the sidebar | Make sure the plugin is installed and enabled in the profile, then restart DSH; check the DSH plugin list |
+| No Feishu CLI configuration on the plugin page | Make sure the plugin is installed and enabled in the profile, then restart DSH; open `dsh-feishu-cli` under Settings → Plugins |
 | Panel status never refreshes | Close and reopen the panel; check that the DSH backend is running and inspect DSH logs |
 
 ## Known limitations
@@ -191,14 +193,12 @@ feishu-cli-plugin/
 │   ├── cli.js            # lark-cli discovery, execution, state and login sessions
 │   ├── install.js        # runtime download and checksum verification of lark-cli
 │   ├── api.js            # /feishu-cli Web API
-│   └── client.js         # browser side: sidebar icon and main panel
+│   └── client.js         # browser side: configuration panel on the plugin page
 ├── locale/               # plugin metadata (zh / en)
 ├── icon.svg
 ├── cordis.patch.yml
 ├── tests/                # node:test unit tests
-├── docs/                 # screenshots and release material
 ├── market/               # awesome-dsh-plugin entry draft
-├── screenshots.json      # storefront screenshot list
 ├── README.md
 ├── README.en.md
 ├── SECURITY.md

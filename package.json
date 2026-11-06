@@ -1,6 +1,6 @@
 {
   "name": "dsh-feishu-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": false,
   "type": "module",
   "description": "飞书官方 CLI 的 DeepSeek Harness 插件：Web UI 一键登录、命令控制台、Agent 工具，覆盖 18 大业务域、200+ 命令与全量 OpenAPI。",
@@ -45,8 +45,6 @@
     "SECURITY.md",
     "PRIVACY.md",
     "CHANGELOG.md",
-    "screenshots.json",
-    "docs/*.png",
     "LICENSE"
   ],
   "scripts": {

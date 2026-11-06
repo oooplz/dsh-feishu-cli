@@ -2,15 +2,15 @@
 
 [English](README.en.md) · 简体中文
 
-把[飞书官方 CLI](https://github.com/larksuite/cli)（`lark-cli`）接入 DeepSeek Harness（DSH）Desktop / Web：侧边栏多一个「飞书」面板，用二维码完成账号登录，Agent 也能直接执行任意 `lark-cli` 命令。
+把[飞书官方 CLI](https://github.com/larksuite/cli)（`lark-cli`）接入 DeepSeek Harness（DSH）Desktop / Web：在「设置 → 插件」的插件详情页里提供一块「飞书 CLI」配置面板，用二维码完成账号登录，Agent 也能直接执行任意 `lark-cli` 命令。插件不占用侧边栏。
 
 > 这是一个社区插件，不是飞书或 DeepSeek 官方发布的产品。插件调用的是飞书官方 CLI，但登录、授权与命令执行都以你自己的飞书账号权限为准。
 
-> 本仓库是 [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli) 的 fork，由 `oooplz` 维护并以 `dsh-feishu-cli` 发布到 npm。代码与上游 `v1.0.0` 一致，后续差异会记录在 [CHANGELOG.md](CHANGELOG.md)。
+> 本仓库是 [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli) 的 fork，由 `oooplz` 维护并以 `dsh-feishu-cli` 发布到 npm。代码基于上游 `v1.0.0`；从 `v1.1.0` 起把配置入口从侧边栏移到插件页，差异见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 这个插件是什么
 
-- **一个 DSH 插件**：给 DSH 的 Web UI 增加「飞书」侧边栏入口和主面板，同时给 Agent 注册 `feishu_cli`、`feishu_auth` 两个工具。
+- **一个 DSH 插件**：配置面板挂在插件自己的页面里（`plugins.bundle.config`），不往侧边栏塞入口；同时给 Agent 注册 `feishu_cli`、`feishu_auth` 两个工具。
 - **一层官方 CLI 的封装**：真正调用飞书的是官方 `lark-cli`。插件负责找到并运行它、读取它的状态、把登录二维码和命令结果搬进面板与对话。
 - **能力边界与 CLI 一致**：CLI 能做的事它都能做，CLI 不能做的事它也不额外承诺。
 
@@ -50,13 +50,13 @@ dsh plugin --profile web add dsh-feishu-cli
 dsh plugin --profile desktop add github:oooplz/dsh-feishu-cli
 ```
 
-还不想装包时，直接下载 [v1.0.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.0.0) 里的 `dsh-feishu-cli.tgz` 本地安装：
+还不想装包时，直接下载 [v1.1.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.1.0) 里的 `dsh-feishu-cli.tgz` 本地安装：
 
 ```bash
 dsh plugin --profile web add ./dsh-feishu-cli.tgz
 ```
 
-安装完成后重启 DSH，侧边栏会出现「飞书」图标。卸载：
+安装完成后重启 DSH，配置从这里进入：左侧 **插件** → **飞书 CLI**（包名 `dsh-feishu-cli`），面板就在详情页的描述与组件列表之间。卸载：
 
 ```bash
 dsh plugin --profile web remove dsh-feishu-cli
@@ -64,7 +64,7 @@ dsh plugin --profile web remove dsh-feishu-cli
 
 ## 首次使用：两步扫码
 
-1. **初始化应用**（仅第一次）：打开侧边栏「飞书」→ 在「第 1 步 · 初始化飞书应用」卡片点「初始化飞书应用（约 1 分钟）」→ 浏览器打开飞书授权页或扫码 → 按提示创建应用并授权。完成后应用会保存到本机的 `lark-cli` 配置里。
+1. **初始化应用**（仅第一次）：左侧「插件」→「飞书 CLI」→ 在「第 1 步 · 初始化飞书应用」卡片点「初始化飞书应用（约 1 分钟）」→ 浏览器打开飞书授权页或扫码 → 按提示创建应用并授权。完成后应用会保存到本机的 `lark-cli` 配置里。
 2. **登录账号**：在「登录飞书账号」卡片点「点击登录飞书账号」→ 用飞书 App 扫描面板中的二维码，或打开面板里的链接 → 在手机上确认授权。面板显示「已登录 · 你的名字」即完成。
 
 之后每次使用只需要第 2 步；登录态过期时面板会提示重新登录。
@@ -72,6 +72,8 @@ dsh plugin --profile web remove dsh-feishu-cli
 > 两阶段都是官方 CLI 的流程：初始化创建的是**你自己的**飞书自建应用，账号登录授权的是**你自己的**飞书用户身份。
 
 ## 使用
+
+入口固定在插件页：左侧 **插件** → **飞书 CLI**。插件不往侧边栏加任何入口。
 
 ### 面板
 
@@ -151,7 +153,7 @@ feishu_auth action="login_cancel" login_id="..." # 取消进行中的登录
 | 授权页打不开 | 检查网络 / 代理；用手机飞书扫码通常可以绕开浏览器网络问题 |
 | 命令报 `unsafe file path` | 文件参数只接受当前工作目录下的相对路径，先 `cd` 到目标目录或用工具参数 `cwd` |
 | 命令退出码 `10` | 高风险写操作，向你确认后加 `--yes` 重试 |
-| 侧边栏没有「飞书」 | 确认插件已安装并在 profile 中启用，重启 DSH；检查 DSH 的插件列表 |
+| 插件页看不到「飞书 CLI」配置面板 | 确认插件已安装并在 profile 中启用，重启 DSH；在「设置 → 插件」里打开 `dsh-feishu-cli` 的详情页 |
 | 面板状态一直不刷新 | 退出面板重新打开；确认 DSH 后端仍在运行，查看 DSH 日志 |
 
 ## 已知限制
@@ -191,14 +193,12 @@ feishu-cli-plugin/
 │   ├── cli.js            # lark-cli 定位、执行、状态读取与登录会话
 │   ├── install.js        # 运行时下载并校验 lark-cli
 │   ├── api.js            # /feishu-cli Web API
-│   └── client.js         # 浏览器端：侧边栏图标与主面板
+│   └── client.js         # 浏览器端：插件详情页里的配置面板
 ├── locale/               # 插件元数据（zh / en）
 ├── icon.svg
 ├── cordis.patch.yml
 ├── tests/                # node:test 单元测试
-├── docs/                 # 截图等发布资料
 ├── market/               # awesome-dsh-plugin 条目草稿
-├── screenshots.json      # 市场截图清单
 ├── README.md
 ├── README.en.md
 ├── SECURITY.md

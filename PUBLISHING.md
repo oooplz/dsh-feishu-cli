@@ -18,14 +18,13 @@ node --test tests/*.test.mjs
 
 - `version` 为 `1.0.0`（当前已是）；
 - `private` 为 `false`（当前已是，否则 `npm publish` 会被拒绝）；
-- `files` 列出实际要发布的内容：`index.js`、`lib/*.js`（含 `lib/install.js`）、`cordis.patch.yml`、`locale/*.json`、`icon.svg`、发布文档、`screenshots.json`、`docs/*.png`、`vendor/README.md`、`vendor/checksums.txt`、`vendor/LICENSE-lark-cli.txt`、`LICENSE`；
+- `files` 列出实际要发布的内容：`index.js`、`lib/*.js`（含 `lib/install.js`）、`cordis.patch.yml`、`locale/*.json`、`icon.svg`、发布文档、`vendor/README.md`、`vendor/checksums.txt`、`vendor/LICENSE-lark-cli.txt`、`LICENSE`；
 - **不要**把 `vendor/lark-cli.exe` 放进 `files`：CLI 由运行时下载，仓库与 npm 包都不携带二进制；
 - `repository`、`homepage`、`bugs`、`engines.dsh` 已配置，无需再改；
 - `keywords` 已包含 `dsh-plugin`、`deepseek-harness`、`feishu`、`lark`、`lark-cli`。
 
 同时确认：
 
-- [ ] `screenshots.json` 中的图片已放进 `docs/`（`docs/screenshot-main.png`、`docs/screenshot-login.png`）；
 - [ ] `market/hoyin-law__dsh-feishu-cli.yml` 的描述与代码实际能力一致；
 - [ ] `README.md` / `README.en.md` 的安装命令、目录结构与当前代码一致；
 - [ ] `CHANGELOG.md` 已记录本次版本。
@@ -66,7 +65,7 @@ awesome-dsh-plugin 的自动检查要求**仓库创建满 1 天**（不是提交
 
 - 补测试、跑一遍 CI；
 - 在真实环境验证两条安装命令；
-- 更新 README 截图。
+- 确认 README 里的入口说明（插件 → 飞书 CLI）与当前界面一致。
 
 ## 4. 验证安装
 
@@ -144,9 +143,8 @@ git push origin add-dsh-feishu-cli
 
 ## 7. 发布后
 
-- 在 GitHub 打 tag 并创建 Release：`v1.0.0`，附 `CHANGELOG.md` 对应段落；
+- 在 GitHub 打 tag 并创建 Release：`v1.1.0`，附 `CHANGELOG.md` 对应段落；
 - 如需给市场提供预构建包，可把 `npm pack` 生成的 `.tgz` 附到 Release，并在条目中加 `tarball:`；
-- 截图更新只需推送到本仓库；市场下一次构建会自动读取 `screenshots.json`，无需再提 PR；
 - 安全或隐私相关变更同步更新 `SECURITY.md` / `PRIVACY.md` / `CHANGELOG.md`。
 
 ## 回滚

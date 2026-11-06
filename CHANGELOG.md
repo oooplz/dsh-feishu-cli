@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.0] - 2026-11-06
+
+### 变更
+
+- **配置入口从侧边栏移到插件自己的页面**：不再注册 `sidebar.panellist` 与 `main`，改为注册
+  `plugins.bundle.config`（以包名 `dsh-feishu-cli` 为 key）。配置面板显示在「设置 → 插件 →
+  dsh-feishu-cli」详情页的描述与组件列表之间，侧边栏不再出现「飞书」入口。
+- 面板去掉页级标题（图标、标题、副标题由插件详情页提供），改为紧凑工具条：状态标签 + 刷新。
+- 页面级背景、滚动与内边距交给宿主页面，插件只负责自身的卡片与间距。
+- 删除截图与截图清单（`docs/*.png`、`screenshots.json`）：旧截图展示的是已移除的侧边栏面板，
+  留着只会误导；README 改为用文字说明入口是「插件 → 飞书 CLI」。
+
+### 内部
+
+- 新增 `tests/client-slots.test.mjs`：锁定"只注册 `plugins.bundle.config`、不注册任何侧边栏或主面板"
+  这一行为，防止回归。
+- 删除随侧边栏一起失效的 `SidebarIcon`、`FeishuMark` 与对应样式。
+
+
 本文件记录 dsh-feishu-cli 的版本变更。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
 ## [1.0.0] - 2026-11-04

@@ -3,10 +3,9 @@
 #
 # 当前 `files` 明确包含：index.js、lib/*.js、cordis.patch.yml、locale/*.json、
 # icon.svg、LICENSE、README.md、README.en.md、SECURITY.md、PRIVACY.md、
-# CHANGELOG.md、screenshots.json、docs/*.png、vendor/README.md、
-# vendor/checksums.txt、vendor/LICENSE-lark-cli.txt。
-# 其中 README.en.md、SECURITY.md、PRIVACY.md、CHANGELOG.md、screenshots.json
-# 与 docs/*.png 是刻意保留的发布资料，不要在这里排除。
+# CHANGELOG.md、vendor/README.md、vendor/checksums.txt、vendor/LICENSE-lark-cli.txt。
+# 其中 README.en.md、SECURITY.md、PRIVACY.md、CHANGELOG.md 是刻意保留的发布资料，
+# 不要在这里排除。
 
 # 开发与测试
 tests/
