@@ -49,4 +49,4 @@
 ## 联系
 
 隐私相关问题请通过 GitHub Issues 提出（不要包含凭据或个人信息）：
-<https://github.com/hoyin-law/dsh-feishu-cli/issues>
+<https://github.com/oooplz/dsh-feishu-cli/issues>

@@ -6,6 +6,8 @@ Brings the [official Feishu CLI](https://github.com/larksuite/cli) (`lark-cli`) 
 
 > This is a community plugin, not a product published by Feishu/Lark or DeepSeek. It drives the official Feishu CLI; every login, authorization and command runs under your own Feishu account and permissions.
 
+> This repository is a fork of [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli), maintained by `oooplz` and published to npm as `dsh-feishu-cli`. The code matches upstream `v1.0.0`; later differences are recorded in [CHANGELOG.md](CHANGELOG.md).
+
 ## What it is
 
 - **A DSH plugin**: adds a Feishu entry to the DSH sidebar with a main panel, and registers the `feishu_cli` and `feishu_auth` agent tools.
@@ -34,25 +36,21 @@ Coverage comes from the official CLI: Messenger `im`, Docs `docs`, Base `base`, 
 
 ## Install
 
-Install from GitHub (source package from `main`):
+Install from npm (recommended):
 
 ```bash
 # Desktop users: replace web with desktop
-dsh plugin --profile web add github:hoyin-law/dsh-feishu-cli
-```
-
-```bash
-# DSH Desktop
-dsh plugin --profile desktop add github:hoyin-law/dsh-feishu-cli
-```
-
-If the package is published to npm, you can install it by name:
-
-```bash
 dsh plugin --profile web add dsh-feishu-cli
 ```
 
-To skip installing from source, download `dsh-feishu-cli.tgz` from the [v1.0.0 Release](https://github.com/hoyin-law/dsh-feishu-cli/releases/tag/v1.0.0) and install it locally:
+You can also install the `main` branch source of this fork from GitHub:
+
+```bash
+# DSH Desktop
+dsh plugin --profile desktop add github:oooplz/dsh-feishu-cli
+```
+
+To skip the package manager, download `dsh-feishu-cli.tgz` from the [v1.0.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.0.0) and install it locally:
 
 ```bash
 dsh plugin --profile web add ./dsh-feishu-cli.tgz
@@ -136,7 +134,7 @@ Lookup order: `LARK_CLI_BIN` → `LARK_CLI_PATH` → the download directory `~/.
 - **Runs as your own Feishu identity**: the agent calls the Feishu API as the user you signed in with, limited to the scopes you granted. Grant the minimum you need.
 - **High-risk writes need confirmation**: destructive commands (deleting docs, recalling messages, etc.) fail with exit code `10` and require you to confirm and retry with `--yes`. The plugin never confirms for you.
 - **Credentials belong to `lark-cli`**: app credentials and login tokens are stored by the official CLI in `~/.lark-cli`, with tokens in the operating system credential store. The plugin does not keep its own copy of app secrets or access tokens, and does not write them to logs.
-- **The local Web API is origin-checked**: `/feishu-cli/api/*` accepts only same-origin `application/json` POST requests.
+- **The local Web API checks request origin**: `/feishu-cli/api/*` requires `application/json` POSTs and, when an `Origin` header is present, verifies its host matches the `Host` header and rejects mismatches (a missing or `null` `Origin` is allowed to support Electron custom protocols).
 - **Review third-party plugins before installing**: this is not an officially certified plugin, and its code runs with your user privileges. Uninstall it whenever you no longer need it.
 
 See [SECURITY.md](SECURITY.md) and [PRIVACY.md](PRIVACY.md) for details.

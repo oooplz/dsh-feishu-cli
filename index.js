@@ -32,7 +32,7 @@ export const inject = ['tools']
 
 /* 说明：本插件不导出 Schemastery `Config`（profile 未提供该依赖）。
  * 可执行文件路径通过环境变量 LARK_CLI_BIN / LARK_CLI_PATH 覆盖；
- * 默认使用插件内置的 vendor/lark-cli.exe。 */
+ * 默认在首次使用时由面板下载到 $DSH_HOME/feishu-cli/bin（不随包分发）。 */
 
 const MAX_RENDER_CHARS = 12_000
 const MAX_TIMEOUT_MS = 600_000
@@ -265,7 +265,7 @@ function renderFeishuCli(args, value) {
     lines.push('提示：命令已被取消。')
   }
   if (value?.spawnError) {
-    lines.push('提示：未能启动 lark-cli，请检查插件 vendor/lark-cli.exe 是否完整，或配置 cliPath。')
+    lines.push('提示：未能启动 lark-cli，请先在飞书面板点「下载并安装飞书 CLI」，或用 LARK_CLI_BIN 指定已有的 lark-cli 路径。')
   }
   if (exitCode === 10) {
     lines.push('提示：退出码 10 = 高风险写操作（high-risk-write）。已拒绝执行，需先向用户确认，再在原命令后加 --yes 重试。')

@@ -6,6 +6,9 @@
 
 首个公开发布。
 
+> Fork 说明：本版本同步自 [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli) 的 `v1.0.0`，无功能性改动；
+> 差异为：仓库元数据指向本 fork、README 补充 npm 安装方式、修正两处与实现不符的说明（Web API 来源校验的范围、启动失败时的提示文案）。
+
 ### 新增
 
 - 侧边栏「飞书」面板：应用与登录状态、登录二维码、授权链接、退出登录、取消登录。

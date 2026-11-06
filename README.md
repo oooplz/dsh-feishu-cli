@@ -6,6 +6,8 @@
 
 > 这是一个社区插件，不是飞书或 DeepSeek 官方发布的产品。插件调用的是飞书官方 CLI，但登录、授权与命令执行都以你自己的飞书账号权限为准。
 
+> 本仓库是 [`hoyin-law/dsh-feishu-cli`](https://github.com/hoyin-law/dsh-feishu-cli) 的 fork，由 `oooplz` 维护并以 `dsh-feishu-cli` 发布到 npm。代码与上游 `v1.0.0` 一致，后续差异会记录在 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 这个插件是什么
 
 - **一个 DSH 插件**：给 DSH 的 Web UI 增加「飞书」侧边栏入口和主面板，同时给 Agent 注册 `feishu_cli`、`feishu_auth` 两个工具。
@@ -34,25 +36,21 @@
 
 ## 安装
 
-推荐从 GitHub 安装（`main` 分支源码包）：
+从 npm 安装（推荐）：
 
 ```bash
 # Desktop 用户把 web 换成 desktop
-dsh plugin --profile web add github:hoyin-law/dsh-feishu-cli
-```
-
-```bash
-# DSH Desktop
-dsh plugin --profile desktop add github:hoyin-law/dsh-feishu-cli
-```
-
-如果已经发布到 npm，也可以按包名安装：
-
-```bash
 dsh plugin --profile web add dsh-feishu-cli
 ```
 
-不想从源码安装时，可以下载 [v1.0.0 Release](https://github.com/hoyin-law/dsh-feishu-cli/releases/tag/v1.0.0) 里的 `dsh-feishu-cli.tgz`，然后本地安装：
+也可以从 GitHub 安装本 fork 的 `main` 分支源码：
+
+```bash
+# DSH Desktop
+dsh plugin --profile desktop add github:oooplz/dsh-feishu-cli
+```
+
+还不想装包时，直接下载 [v1.0.0 Release](https://github.com/oooplz/dsh-feishu-cli/releases/tag/v1.0.0) 里的 `dsh-feishu-cli.tgz` 本地安装：
 
 ```bash
 dsh plugin --profile web add ./dsh-feishu-cli.tgz
@@ -136,7 +134,7 @@ feishu_auth action="login_cancel" login_id="..." # 取消进行中的登录
 - **以你自己的飞书身份操作**：Agent 用你登录时授权的用户身份调用飞书 API，权限范围就是你授予的 scopes。请按需选择最小范围。
 - **高风险写操作要确认**：删除文档、撤回消息等命令会以退出码 `10` 拒绝执行，需要你明确确认后加 `--yes` 重试。插件不会自动替你确认。
 - **凭据由 `lark-cli` 管理**：应用凭据和登录 token 由官方 CLI 存在 `~/.lark-cli`，token 使用操作系统的凭据存储；插件本身不额外保存 app secret 或 access token，也不会把它们写进日志。
-- **本地 Web API 有同源保护**：面板调用的 `/feishu-cli/api/*` 只接受同源、`application/json` 的 POST 请求。
+- **本地 Web API 有来源校验**：面板调用的 `/feishu-cli/api/*` 强制 `application/json` 的 POST；请求带 `Origin` 时会校验其 host 与 `Host` 头一致，不一致直接拒绝（缺少 `Origin` 或为 `null` 时放行，以兼容 Electron 自定义协议）。
 - **安装第三方插件前请审阅源码**：本插件不是官方认证插件，代码以你的用户权限运行。不使用时可以随时卸载。
 
 更多说明见 [SECURITY.md](SECURITY.md) 和 [PRIVACY.md](PRIVACY.md)。

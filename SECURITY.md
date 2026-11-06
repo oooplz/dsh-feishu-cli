@@ -13,7 +13,7 @@
 
 推荐通过 GitHub 仓库的 **Security → Report a vulnerability**（私密安全公告）提交：
 
-<https://github.com/hoyin-law/dsh-feishu-cli/security/advisories/new>
+<https://github.com/oooplz/dsh-feishu-cli/security/advisories/new>
 
 报告中请尽量包含：
 

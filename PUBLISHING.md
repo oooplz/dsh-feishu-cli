@@ -32,14 +32,14 @@ node --test tests/*.test.mjs
 
 ## 1. 创建 GitHub 仓库并推送
 
-仓库地址：<https://github.com/hoyin-law/dsh-feishu-cli>
+仓库地址：<https://github.com/oooplz/dsh-feishu-cli>
 
 ```bash
 git init
 git add .
 git commit -m "feat: dsh-feishu-cli 1.0.0"
 git branch -M main
-git remote add origin git@github.com:hoyin-law/dsh-feishu-cli.git
+git remote add origin git@github.com:oooplz/dsh-feishu-cli.git
 git push -u origin main
 ```
 
@@ -73,7 +73,7 @@ awesome-dsh-plugin 的自动检查要求**仓库创建满 1 天**（不是提交
 在干净的 profile 上验证 GitHub 安装：
 
 ```bash
-dsh plugin --profile web add github:hoyin-law/dsh-feishu-cli
+dsh plugin --profile web add github:oooplz/dsh-feishu-cli
 ```
 
 DSH Desktop 用 `--profile desktop`。安装后重启 DSH，确认：
@@ -136,11 +136,11 @@ cp /path/to/feishu-cli-plugin/market/hoyin-law__dsh-feishu-cli.yml \
 # 3. 不要手工编辑 README（由脚本生成）
 git checkout -b add-dsh-feishu-cli
 git add data/plugins/hoyin-law__dsh-feishu-cli.yml
-git commit -m "Add hoyin-law/dsh-feishu-cli"
+git commit -m "Add oooplz/dsh-feishu-cli"
 git push origin add-dsh-feishu-cli
 ```
 
-然后在 GitHub 上向上游开 PR，标题形如 `Add hoyin-law/dsh-feishu-cli`，正文按上游 PR 模板填写。
+然后在 GitHub 上向上游开 PR，标题形如 `Add oooplz/dsh-feishu-cli`，正文按上游 PR 模板填写。
 
 ## 7. 发布后
 
